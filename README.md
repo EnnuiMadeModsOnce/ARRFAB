@@ -2,7 +2,7 @@
 
 # Access REI Recipes From A Block
 
-ARRFAB is a mod that allows players to view Roughly Enough Items recipes from a block by adding 2 keybinds, "View Recipes" (NUMPAD 8) and "View Usages" (NUMPAD 9). Requires the [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [Roughly Enough Items](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items).
+ARRFAB is a mod that allows players to view Roughly Enough Items recipes from a block by adding 2 keybinds, "View Recipes" (Page Up) and "View Usages" (Page Down). Requires the [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [Roughly Enough Items](https://www.curseforge.com/minecraft/mc-mods/roughly-enough-items).
 
 ## Download
 
