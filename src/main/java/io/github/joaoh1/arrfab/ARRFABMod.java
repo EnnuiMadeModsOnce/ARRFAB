@@ -8,7 +8,8 @@ public class ARRFABMod implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		//Register the event
+		//Register keys and the event
+		ARRFABKeys.registerKeys();
 		ManageKeysEvent.registerEvent();
 	}
 }
