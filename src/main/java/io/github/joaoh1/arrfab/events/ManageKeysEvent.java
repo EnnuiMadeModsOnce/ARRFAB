@@ -16,6 +16,19 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
 public class ManageKeysEvent {
+	private static Item getItemFromTarget(MinecraftClient client) {
+		HitResult.Type type = client.crosshairTarget.getType();
+		if (type == HitResult.Type.BLOCK) {
+			//If the target is a block, get the item from it
+			BlockPos blockPos = ((BlockHitResult) client.crosshairTarget).getBlockPos();
+			return client.world.getBlockState(blockPos).getBlock().asItem();
+		} else if (type == HitResult.Type.ENTITY) {
+			//If the target is an entity, get the spawn egg from it
+			return SpawnEggItem.forEntity(((EntityHitResult) client.crosshairTarget).getEntity().getType());
+		}
+		return null;
+	}
+
     private static void openScreen(MinecraftClient client, ViewSearchBuilder view) {
 		//If there's no recipes, don't do anything
         if (!view.buildMap().isEmpty()) {
@@ -23,7 +36,7 @@ public class ManageKeysEvent {
             client.openScreen(new InventoryScreen(client.player));
 			ClientHelper.getInstance().openView(view);
 			//Mark the recipe screen in order to fix ESC and BACKSPACE
-            ARRFABMod.openedByVrrfab = true;
+            ARRFABMod.returnToNoScreen = true;
         }
     }
 
@@ -31,16 +44,7 @@ public class ManageKeysEvent {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (ARRFABKeys.viewRecipesKey.isPressed()) {
 				//Create an item variable, null by default so it can fail the null check if nothing happens
-				Item targetItem = null;
-				HitResult.Type type = client.crosshairTarget.getType();
-				if (type == HitResult.Type.BLOCK) {
-					//If the target is a block, get the item from it
-					BlockPos blockPos = ((BlockHitResult) client.crosshairTarget).getBlockPos();
-					targetItem = client.world.getBlockState(blockPos).getBlock().asItem();
-				} else if (type == HitResult.Type.ENTITY) {
-					//If the target is an entity, get the spawn egg from it
-					targetItem = SpawnEggItem.forEntity(((EntityHitResult) client.crosshairTarget).getEntity().getType());
-				}
+				Item targetItem = getItemFromTarget(client);
 				if (targetItem != null) {
 					//Build the recipe screen from the item
 					ViewSearchBuilder view = ViewSearchBuilder.builder().setInputNotice(EntryStack.create(targetItem)).addRecipesFor(EntryStack.create(targetItem));
@@ -50,17 +54,17 @@ public class ManageKeysEvent {
             }
             
 			if (ARRFABKeys.viewUsagesKey.isPressed()) {
-				Item targetItem = null;
-				HitResult.Type type = client.crosshairTarget.getType();
-				if (type == HitResult.Type.BLOCK) {
-					BlockPos blockPos = ((BlockHitResult) client.crosshairTarget).getBlockPos();
-					targetItem = client.world.getBlockState(blockPos).getBlock().asItem();
-				} else if (type == HitResult.Type.ENTITY) {
-					targetItem = SpawnEggItem.forEntity(((EntityHitResult) client.crosshairTarget).getEntity().getType());
-				}
+				Item targetItem = getItemFromTarget(client);
 				if (targetItem != null) {
 					ViewSearchBuilder view = ViewSearchBuilder.builder().setOutputNotice(EntryStack.create(targetItem)).addUsagesFor(EntryStack.create(targetItem));
 					openScreen(client, view);
+				}
+			}
+
+			//Deactivate the signal if auto-craft is used
+			if (ARRFABMod.returnToNoScreen) {
+				if (client.currentScreen instanceof InventoryScreen) {
+					ARRFABMod.returnToNoScreen = false;
 				}
 			}
 		});
