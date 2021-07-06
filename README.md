@@ -9,7 +9,7 @@ ARRFAB is a mod that allows players to view Roughly Enough Items recipes from a 
 This mod is available for download on the following services:
 
 - [CurseForge (recommended)](https://www.curseforge.com/minecraft/mc-mods/arrfab)
-- [GitHub Releases (alternative)](https://github.com/joaoh1/ARRFAB/releases)
+- [GitHub Releases (alternative)](https://github.com/EnnuiL/ARRFAB/releases)
 
 ## License
 
