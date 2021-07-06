@@ -1,9 +1,9 @@
-package io.github.joaoh1.arrfab;
+package io.github.ennuil.arrfab;
 
 import org.lwjgl.glfw.GLFW;
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 
 public class ARRFABKeys {
     //The "View Recipes" key
